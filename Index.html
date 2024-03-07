@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body{
+            background-color: rgba(148, 232, 243, 0.747);
+            align-items: center;
+            text-align: center;
+        }
+        /*Aqui esta ubicado el titulo*/
+        .Header{
+            background-color: rgb(22, 28, 53);
+            width: 1000px;
+            height: 50px;
+            padding: auto;
+            margin: auto;
+            font-size: 15px;
+            text-align: center;
+            align-items: center;
+            font-family: 'Times New Roman', Times, serif;
+            border-style: double;
+            border-width: 5px;
+            border-color: rgb(238, 188, 23);
+            color: white;
+        }
+        /*Aqui es el div done estan ubicado todo lo del cuadro grande*/
+        .content{
+            background-color: rgb(22, 28, 53);
+            height: 700px;
+            width: 1000px;
+            padding: auto;
+            margin: auto;
+            border-width: 10px;
+            border-style: double;
+            border-color: rgb(255, 239, 10);
+            position: relative;
+            text-align: center;
+        }
+        label{
+            font-size: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            border-color: rgb(255, 255, 255);
+            border-style: outset;
+            color: white;
+        }
+        .Inputs{
+            
+            border-radius: 5px;
+            height: auto;
+            width: auto;
+            text-align: center;
+        }
+        .input{
+            padding: 5px;
+            margin: 5px;
+            border-width: 5px;
+            border-style: groove;
+        }
+        .resultado{
+            border-color: rgb(255, 255, 255);
+            border-width: 5px;
+            border-style: dotted;
+            color: white;
+        }
+        .contenido{
+            border-color: rgb(255, 255, 255);
+            border-width: 5px;
+            padding: 5px;
+            margin: 5px;
+            border-style: double;
+            text-align: center;
+            color: white;
+            font-size: large;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .Text{
+            position: relative;
+            width: auto;
+            height: auto;
+            padding: 10px;
+            margin: 0 auto;
+            color: white;
+        }
+        .botones{
+            height: auto;
+            width: auto;
+            border-color: rgba(255, 255, 255, 0.644);
+            border-style: inherit;
+            border-width: 5px;
+            position: relative;
+            text-align: center;
+        }
+        .metodo{
+            padding: 5px;
+            margin: 0% auto;
+            position: relative;
+            border-color: rgb(255, 255, 255);
+            border-style: groove;
+            border-width: 5px;
+            text-align: center;
+            font-style: italic;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="wrapper">
+            <div class="Header">
+                <h1>CALCULADORA DE VARIOS USOS</h1>
+            </div>
+            <div class="content">
+                <div class="Text">
+                    <label>Ingrese datos aquí por favor</label>
+                </div>
+                <div class="Inputs">
+                    <input class="input" id="x" type="Number" placeholder="Ingrese el valor X">
+                    <input class="input" id="x0" type="Number" placeholder="Ingrese el valor X0">
+                    <input class="input" id="x1" type="Number" placeholder="Ingrese el valor X1">
+                    <input class="input" id="x2" type="Number" placeholder="Ingrese el valor X2">
+                    <input class="input" id="fx0" type="Number" placeholder="Ingrese el valor F(X0)">
+                    <input class="input" id="fx1" type="Number" placeholder="Ingrese el valor F(X1)">
+                    <input class="input" id="fx2" type="Number" placeholder="Ingrese el valor F(X2)">
+                    <input class="input" id="EXACTO" type="Number" placeholder="Ingrese el valor exacto">
+                </div>
+                <div class="resultado">
+                    <p class="contenido" id="Valor_redondeado"></p><br>
+                    <p class="contenido " id="Error"></p>
+                </div>
+                <div class="botones">
+                    <select id="metodo" name="department" required>
+                        <option value="">SELECCIONE UN MÉTODO PARA CALCULAR LA INTERPOLACIÓN</option>
+                        <option value="INTERPOLACIÓN LINEAL">INTERPOLACIÓN LINEAL</option>
+                        <option value="INTERPOLACION CUADRATICA">INTERPOLACIÓN CUADRÁTICA</option>
+                        <option value="INTERPOLACIÓN DE LAGRANGE DE PRIMER GRADO">INTERPOLACIÓN DE LAGRANGE DE PRIMER GRADO</option>
+                        <option value="INTERPOLACIÓN DE LAGRANGE DE SEGUNDO GRADO">INTERPOLACIÓN DE LAGRANGE DE SEGUNDO GRADO</option>
+                    </select>
+                    <button onclick="Calcular()">Calcular</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        function Calcular() {
+            let x = parseFloat(document.getElementById("x").value);
+            let x0 = parseFloat(document.getElementById("x0").value);
+            let x1 = parseFloat(document.getElementById("x1").value);
+            let x2 = parseFloat(document.getElementById("x2").value);
+            let fx0 = parseFloat(document.getElementById("fx0").value);
+            let fx1 = parseFloat(document.getElementById("fx1").value);
+            let fx2 = parseFloat(document.getElementById("fx2").value);
+            let exacto = parseFloat(document.getElementById("EXACTO").value);
+            let metodo = document.getElementById("metodo").value;
+            let resultado1 = document.getElementById("Valor_redondeado");
+            let resultado2 = document.getElementById("Error");
+
+            if (metodo === "INTERPOLACIÓN LINEAL") {
+                let fx = fx0 + ((fx1 - fx0) / (x1 - x0)) * (x - x0);
+                let rel = Math.abs(((exacto - fx) / exacto) * 100);
+                if (isNaN(exacto)) {
+                    resultado1.innerHTML = "No se ha proporcionado un valor exacto.";
+                } else {
+                    resultado1.innerHTML = "Tu valor interpolado es: " + fx;
+                    resultado2.innerHTML = "Tu error relativo equivale al " + rel + "%";
+                }
+            }
+            if (metodo == "INTERPOLACION CUADRATICA") {
+                let b0 = fx0;
+                let b1 = (fx1 - fx0) / (x1 - x0);
+                let b2 = (((fx2 - fx1) / (x2 - x1)) - b1) / (x2 - x0);
+                let fx = b0 + ((b1 * (x - x0)) + (b2 * (x - x0) * (x - x1)));
+                let rel = Math.abs(((exacto - fx) / exacto) * 100);
+                if (isNaN(exacto)) {
+                    resultado1.innerHTML = "No se ha proporcionado un valor exacto.";
+                } else {
+                    resultado1.innerHTML = "Tu valor interpolado es: " + fx;
+                    resultado2.innerHTML = "Tu error relativo equivale al " + rel + "%";
+                }
+            }
+            if (metodo == "INTERPOLACIÓN DE LAGRANGE DE PRIMER GRADO") {
+                let fx = (((x - x1) / (x0 - x1)) * fx0) + (((x - x0) / (x1 - x0)) * fx1);
+                let rel = Math.abs(((exacto - fx) / exacto) * 100);
+
+                if (isNaN(exacto)) {
+                    resultado1.innerHTML = "No se ha proporcionado un valor exacto.";
+                } else {
+                    resultado1.innerHTML = "Tu valor interpolado es: " + fx;
+                    resultado2.innerHTML = "Tu error relativo equivale al " + rel + "%";
+                }
+            }
+            if (metodo == "INTERPOLACIÓN DE LAGRANGE DE SEGUNDO GRADO") {
+                let fx = (((x - x1) / (x0 - x1)) * ((x - x2) / (x0 - x2)) * fx0) +
+                    (((x - x0) / (x1 - x0)) * ((x - x2) / (x1 - x2)) * fx1) +
+                    (((x - x0) / (x2 - x0)) * ((x - x1) / (x2 - x1)) * fx2);
+                let rel = Math.abs(((exacto - fx) / exacto) * 100);
+
+                if (isNaN(exacto)) {
+                    resultado1.innerHTML = "No se ha proporcionado un valor exacto.";
+                } else {
+                    resultado1.innerHTML = "Tu valor interpolado es: " + fx;
+                    resultado2.innerHTML = "Tu error relativo equivale al " + rel + "%";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
